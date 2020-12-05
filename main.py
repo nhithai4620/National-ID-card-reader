@@ -10,7 +10,7 @@ import Scanner
 import cv2
 
 
-FORM_CLASS, _ = loadUiType(path.join(path.dirname(__file__), "gui.ui"))
+FORM_CLASS, _ = loadUiType(path.join(path.dirname(__file__), "gui.ui")) 
 front_addr=''
 back_addr=''
 class MainApp(QMainWindow, FORM_CLASS):
@@ -22,27 +22,27 @@ class MainApp(QMainWindow, FORM_CLASS):
         QMainWindow.__init__(self)
         self.setupUi(self)
 
-        self.front_btn.clicked.connect(self.front)
+        self.front_btn.clicked.connect(self.front)  #nhấn nút gọi hàm font
 
-        self.back_btn.clicked.connect(self.back)
+        self.back_btn.clicked.connect(self.back)  #nhấn nút gọi hàm back
 
-        self.generate_btn.clicked.connect(self.generate)
-       
+        self.generate_btn.clicked.connect(self.generate) #nhấn nút gọi hàm generate
+        
 
     def front(self):
         global front_addr
-        front_addr,_ = QFileDialog.getOpenFileName(self,'Open File','',"Image files(*.jpg *.png *.jpeg)")
-        Scanner.scan(front_addr,"front")
+        front_addr,_ = QFileDialog.getOpenFileName(self,'Open File','',"Image files(*.jpg *.png *.jpeg)")#load file ảnh từ máy tính
+        Scanner.scan(front_addr,"front")  #đầu vào là ảnh, tiến hành cắt các cạnh trả về là hình ảnh temp_back ở thư mục cùng cấp
         #front_addr = str(front_addr)[2:str(front_addr).find(',')-1]
-        pixmap = QPixmap("temp_front.jpg")
-        self.label_imgf.setPixmap(pixmap)
-        self.label_imgf.setScaledContents(True)
+        pixmap = QPixmap("temp_front.jpg") # đặt ảnh cho pixmap
+        self.label_imgf.setPixmap(pixmap)  #hiện thị hình ảnh lên cửa sổ
+        self.label_imgf.setScaledContents(True) # đặt hình ảnh vừa với tỉ lệ của khung
         
 ##        
         
 ##        print ("____",front_addr,"____")
 
-    def back(self):
+    def back(self):  #như trên
         global back_addr
         back_addr,_ = QFileDialog.getOpenFileName(self,'Open File','',"Image files(*.jpg *.png *.jpeg)")
         Scanner.scan(back_addr,"back")
@@ -57,23 +57,23 @@ class MainApp(QMainWindow, FORM_CLASS):
 ##        print ("____",back_addr,"____")
 	
   
-    def generate(self):
+    def generate(self): #nút thực hiện
         global front_addr,back_addr
-        if front_addr=='' or back_addr=='':
+        if front_addr=='' or back_addr=='': #kiểm tra có chèn ảnh hay chưa
             QMessageBox.about(self, "Couldn't generate", "Image is not inserted!")
         else:
-            form.form("temp_front.jpg","temp_back.jpg")
+            form.form("temp_front.jpg","temp_back.jpg") #gọi hàm from
             print("done")
         
    
 
 
 def main():
-    app = QApplication(sys.argv)
-    window = MainApp()
-    window.show()
+    app = QApplication(sys.argv)  #tạo ứng dụng từ thư viện qt5
+    window = MainApp()  #gọi cửa sổ mainapp phía trên
+    window.show()  #show
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())    #thoát
 
 
 if __name__ == '__main__':
